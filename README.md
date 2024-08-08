@@ -16,6 +16,17 @@ To generate the code, run the following command:
 make generate
 ```
 
+Run Server 
+```shell
+go run main.go
+```
+
+Run Client
+
+```shell
+go run cmd/api/main.go
+```
+
 This will generate the necessary Go code for the protobuf files and the gRPC-Gateway files.
 
 #### gRPC Requests and Responses

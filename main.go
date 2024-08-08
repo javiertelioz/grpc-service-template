@@ -10,21 +10,12 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	"github.com/javiertelioz/grpc-templates/services"
+
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	pb "github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
+	pbGreeterService "github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
+	pbPaymentsService "github.com/javiertelioz/grpc-templates/proto/payments/v1"
 )
-
-// Define the server struct, which implements the pb.UnimplementedGreeterServiceServer interface
-type server struct {
-	pb.UnimplementedGreeterServiceServer
-}
-
-// Implement the SayHello method of the pb.GreeterServiceServer interface
-func (s *server) SayHello(ctx context.Context, req *pb.GreeterServiceSayHelloRequest) (*pb.GreeterServiceSayHelloResponse, error) {
-	return &pb.GreeterServiceSayHelloResponse{
-		Message: fmt.Sprintf("Hello, %s!", req.Name),
-	}, nil
-}
 
 // Set up the gRPC server on port 8080 and serve requests indefinitely
 func runGRPCServer() error {
@@ -34,12 +25,12 @@ func runGRPCServer() error {
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterGreeterServiceServer(s, &server{})
+	pbGreeterService.RegisterGreeterServiceServer(s, &services.GreeterService{})
+	pbPaymentsService.RegisterPaymentServiceServer(s, &services.PaymentService{})
 
-	// Enable reflection to allow clients to query the server's services
 	reflection.Register(s)
 
-	fmt.Println("Starting gRPC server on :8080...")
+	fmt.Println("Starting gRPC services on :8080...")
 	if err := s.Serve(lis); err != nil {
 		return err
 	}
@@ -57,11 +48,16 @@ func runRESTServer() error {
 		return err
 	}
 
-	if err := pb.RegisterGreeterServiceHandler(ctx, mux, conn); err != nil {
+	if err := pbGreeterService.RegisterGreeterServiceHandler(ctx, mux, conn); err != nil {
 		return err
 	}
 
-	fmt.Println("Starting gRPC-Gateway server on :8081...")
+	err = pbPaymentsService.RegisterPaymentServiceHandler(ctx, mux, conn)
+	if err != nil {
+		log.Fatalf("failed to start PaymentService HTTP gateway: %v", err)
+	}
+
+	fmt.Println("Starting gRPC-Gateway services on :8081...")
 	if err := http.ListenAndServe(":8081", mux); err != nil {
 		return err
 	}
@@ -71,11 +67,11 @@ func runRESTServer() error {
 func main() {
 	go func() {
 		if err := runRESTServer(); err != nil {
-			log.Fatalf("Failed to run REST server: %v", err)
+			log.Fatalf("Failed to run REST services: %v", err)
 		}
 	}()
 
 	if err := runGRPCServer(); err != nil {
-		log.Fatalf("Failed to run gRPC server: %v", err)
+		log.Fatalf("Failed to run gRPC services: %v", err)
 	}
 }

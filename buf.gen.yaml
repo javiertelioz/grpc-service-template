@@ -14,6 +14,8 @@ plugins:
       - paths=source_relative
   - name: openapiv2
     out: proto
+    opt:
+      - output_format=yaml
   - name: java
     out: proto
   - name: python

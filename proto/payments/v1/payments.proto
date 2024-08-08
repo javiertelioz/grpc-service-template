@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package payments.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/javiertelioz/grpc-templates/payments";
+
+// PaymentService definition
+service PaymentService {
+  // Unary call for making a deposit
+  rpc Deposit(DepositRequest) returns (DepositResponse) {
+    option (google.api.http) = {
+      post: "/v1/payments/deposit"
+      body: "*"
+    };
+  }
+
+  // Unary call for making a withdrawal
+  rpc Withdraw(WithdrawRequest) returns (WithdrawResponse) {
+    option (google.api.http) = {
+      post: "/v1/payments/withdraw"
+      body: "*"
+    };
+  }
+
+  // Server-streaming call to get transaction history
+  rpc GetTransactionHistory(TransactionHistoryRequest) returns (stream Transaction) {
+    option (google.api.http) = {
+      get: "/v1/payments/transaction-history/{user_id}"
+    };
+  }
+
+  // Client-streaming call to upload multiple transactions
+  rpc UploadTransactions(stream UploadTransactionsRequest) returns (UploadTransactionsResponse) {
+    option (google.api.http) = {
+      post: "/v1/payments/upload-transactions"
+      body: "transactions"
+    };
+  }
+
+  // Bidirectional call for real-time transaction processing
+  rpc RealTimeTransaction(stream Transaction) returns (stream Transaction) {
+    option (google.api.http) = {
+      post: "/v1/payments/real-time-transaction"
+      body: "*"
+    };
+  }
+}
+
+// Messages for deposit
+message DepositRequest {
+  string user_id = 1;
+  double amount = 2;
+}
+
+message DepositResponse {
+  string transaction_id = 1;
+  string status = 2;
+  string message = 3;
+}
+
+// Messages for withdrawal
+message WithdrawRequest {
+  string user_id = 1;
+  double amount = 2;
+}
+
+message WithdrawResponse {
+  string transaction_id = 1;
+  string status = 2;
+  string message = 3;
+}
+
+// Messages for transaction history
+message TransactionHistoryRequest {
+  string user_id = 1;
+}
+
+message Transaction {
+  string transaction_id = 1;
+  string user_id = 2;
+  double amount = 3;
+  string type = 4; // deposit or withdrawal
+  string status = 5;
+  string timestamp = 6;
+}
+
+// Message for uploading transactions
+message UploadTransactionsRequest {
+  repeated Transaction transactions = 1;
+}
+
+message UploadTransactionsResponse {
+  int32 success_count = 1;
+  int32 failure_count = 2;
+  repeated string errors = 3;
+}
