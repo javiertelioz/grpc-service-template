@@ -6,9 +6,26 @@ import "google/api/annotations.proto";
 
 option go_package = "github.com/javiertelioz/grpc-templates/payments";
 
-// PaymentService definition
+// PaymentService provides a set of APIs for processing payments and transactions.
 service PaymentService {
-  // Unary call for making a deposit
+  // Deposit processes a deposit request.
+  //
+  // This method expects a POST request with the user's ID and the amount to be deposited.
+  //
+  // Request:
+  //   - `user_id`: The ID of the user making the deposit.
+  //   - `amount`: The amount to be deposited.
+  //
+  // Response:
+  //   - `transaction_id`: The ID of the transaction.
+  //   - `status`: The status of the deposit (e.g., "success", "failure").
+  //   - `message`: Additional information about the transaction.
+  //
+  // Possible HTTP responses:
+  //   - 200: The deposit was successfully processed.
+  //   - 400: The request was malformed, usually due to missing or invalid parameters.
+  //   - 401: Unauthorized request, typically due to missing or invalid authentication credentials.
+  //   - 500: Internal server error, indicating a problem on the server side.
   rpc Deposit(DepositRequest) returns (DepositResponse) {
     option (google.api.http) = {
       post: "/v1/payments/deposit"
@@ -16,7 +33,24 @@ service PaymentService {
     };
   }
 
-  // Unary call for making a withdrawal
+  // Withdraw processes a withdrawal request.
+  //
+  // This method expects a POST request with the user's ID and the amount to be withdrawn.
+  //
+  // Request:
+  //   - `user_id`: The ID of the user making the withdrawal.
+  //   - `amount`: The amount to be withdrawn.
+  //
+  // Response:
+  //   - `transaction_id`: The ID of the transaction.
+  //   - `status`: The status of the withdrawal (e.g., "success", "failure").
+  //   - `message`: Additional information about the transaction.
+  //
+  // Possible HTTP responses:
+  //   - 200: The withdrawal was successfully processed.
+  //   - 400: The request was malformed, usually due to missing or invalid parameters.
+  //   - 401: Unauthorized request, typically due to missing or invalid authentication credentials.
+  //   - 500: Internal server error, indicating a problem on the server side.
   rpc Withdraw(WithdrawRequest) returns (WithdrawResponse) {
     option (google.api.http) = {
       post: "/v1/payments/withdraw"
@@ -24,14 +58,49 @@ service PaymentService {
     };
   }
 
-  // Server-streaming call to get transaction history
+  // GetTransactionHistory retrieves the transaction history for a user.
+  //
+  // This method expects a GET request with the user's ID as a path parameter.
+  //
+  // Request:
+  //   - `user_id`: The ID of the user whose transaction history is being retrieved.
+  //
+  // Response (streaming):
+  //   - `transaction_id`: The ID of the transaction.
+  //   - `user_id`: The ID of the user associated with the transaction.
+  //   - `amount`: The amount involved in the transaction.
+  //   - `type`: The type of transaction (e.g., "deposit", "withdrawal").
+  //   - `status`: The status of the transaction.
+  //   - `timestamp`: The timestamp of when the transaction occurred.
+  //
+  // Possible HTTP responses:
+  //   - 200: The transaction history was successfully retrieved.
+  //   - 400: The request was malformed, usually due to missing or invalid parameters.
+  //   - 401: Unauthorized request, typically due to missing or invalid authentication credentials.
+  //   - 500: Internal server error, indicating a problem on the server side.
   rpc GetTransactionHistory(TransactionHistoryRequest) returns (stream Transaction) {
     option (google.api.http) = {
       get: "/v1/payments/transaction-history/{user_id}"
     };
   }
 
-  // Client-streaming call to upload multiple transactions
+  // UploadTransactions uploads multiple transactions for processing.
+  //
+  // This method expects a POST request with a list of transactions to be processed.
+  //
+  // Request:
+  //   - `transactions`: A list of transactions to be uploaded.
+  //
+  // Response:
+  //   - `success_count`: The number of transactions successfully processed.
+  //   - `failure_count`: The number of transactions that failed to process.
+  //   - `errors`: A list of error messages for the failed transactions.
+  //
+  // Possible HTTP responses:
+  //   - 200: The transactions were successfully uploaded.
+  //   - 400: The request was malformed, usually due to missing or invalid parameters.
+  //   - 401: Unauthorized request, typically due to missing or invalid authentication credentials.
+  //   - 500: Internal server error, indicating a problem on the server side.
   rpc UploadTransactions(stream UploadTransactionsRequest) returns (UploadTransactionsResponse) {
     option (google.api.http) = {
       post: "/v1/payments/upload-transactions"
@@ -39,7 +108,23 @@ service PaymentService {
     };
   }
 
-  // Bidirectional call for real-time transaction processing
+  // RealTimeTransaction processes transactions in real-time.
+  //
+  // This method expects a bidirectional stream of transactions to be processed in real-time.
+  //
+  // Request/Response (streaming):
+  //   - `transaction_id`: The ID of the transaction.
+  //   - `user_id`: The ID of the user associated with the transaction.
+  //   - `amount`: The amount involved in the transaction.
+  //   - `type`: The type of transaction (e.g., "deposit", "withdrawal").
+  //   - `status`: The status of the transaction.
+  //   - `timestamp`: The timestamp of when the transaction occurred.
+  //
+  // Possible HTTP responses:
+  //   - 200: The transactions were successfully processed.
+  //   - 400: The request was malformed, usually due to missing or invalid parameters.
+  //   - 401: Unauthorized request, typically due to missing or invalid authentication credentials.
+  //   - 500: Internal server error, indicating a problem on the server side.
   rpc RealTimeTransaction(stream Transaction) returns (stream Transaction) {
     option (google.api.http) = {
       post: "/v1/payments/real-time-transaction"
@@ -50,49 +135,83 @@ service PaymentService {
 
 // Messages for deposit
 message DepositRequest {
+  // The ID of the user making the deposit.
   string user_id = 1;
+
+  // The amount to be deposited.
   double amount = 2;
 }
 
 message DepositResponse {
+  // The ID of the transaction.
   string transaction_id = 1;
+
+  // The status of the deposit (e.g., "success", "failure").
   string status = 2;
+
+  // Additional information about the transaction.
   string message = 3;
 }
 
 // Messages for withdrawal
 message WithdrawRequest {
+  // The ID of the user making the withdrawal.
   string user_id = 1;
+
+  // The amount to be withdrawn.
   double amount = 2;
 }
 
 message WithdrawResponse {
+  // The ID of the transaction.
   string transaction_id = 1;
+
+  // The status of the withdrawal (e.g., "success", "failure").
   string status = 2;
+
+  // Additional information about the transaction.
   string message = 3;
 }
 
 // Messages for transaction history
 message TransactionHistoryRequest {
+  // The ID of the user whose transaction history is being retrieved.
   string user_id = 1;
 }
 
 message Transaction {
+  // The ID of the transaction.
   string transaction_id = 1;
+
+  // The ID of the user associated with the transaction.
   string user_id = 2;
+
+  // The amount involved in the transaction.
   double amount = 3;
-  string type = 4; // deposit or withdrawal
+
+  // The type of transaction (e.g., "deposit", "withdrawal").
+  string type = 4;
+
+  // The status of the transaction.
   string status = 5;
+
+  // The timestamp of when the transaction occurred.
   string timestamp = 6;
 }
 
 // Message for uploading transactions
 message UploadTransactionsRequest {
+  // A list of transactions to be uploaded.
   repeated Transaction transactions = 1;
 }
 
 message UploadTransactionsResponse {
+  // The number of transactions successfully processed.
   int32 success_count = 1;
+
+  // The number of transactions that failed to process.
   int32 failure_count = 2;
+
+  // A list of error messages for the failed transactions.
   repeated string errors = 3;
 }
