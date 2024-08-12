@@ -16,6 +16,7 @@ plugins:
     out: proto
     opt:
       - output_format=yaml
+      - json_names_for_fields=false
   - name: java
     out: proto
   - name: python
