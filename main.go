@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/javiertelioz/grpc-templates/examples"
 	"log"
+
+	"github.com/javiertelioz/grpc-templates/examples"
 )
 
 func main() {
