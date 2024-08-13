@@ -1,4 +1,4 @@
-package services
+package server
 
 import (
 	"context"
@@ -7,11 +7,11 @@ import (
 	pb "github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
 )
 
-type GreeterService struct {
+type GreeterServer struct {
 	pb.UnimplementedGreeterServiceServer
 }
 
-func (s *GreeterService) SayHello(ctx context.Context, req *pb.GreeterServiceSayHelloRequest) (*pb.GreeterServiceSayHelloResponse, error) {
+func (s *GreeterServer) SayHello(ctx context.Context, req *pb.GreeterServiceSayHelloRequest) (*pb.GreeterServiceSayHelloResponse, error) {
 	return &pb.GreeterServiceSayHelloResponse{
 		Message: fmt.Sprintf("Hello, %s!", req.Name),
 	}, nil

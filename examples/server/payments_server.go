@@ -1,4 +1,4 @@
-package services
+package server
 
 import (
 	"context"
@@ -7,11 +7,11 @@ import (
 	pb "github.com/javiertelioz/grpc-templates/proto/payments/v1"
 )
 
-type PaymentService struct {
+type PaymentServer struct {
 	pb.UnimplementedPaymentServiceServer
 }
 
-func (s *PaymentService) Deposit(ctx context.Context, req *pb.DepositRequest) (*pb.DepositResponse, error) {
+func (s *PaymentServer) Deposit(ctx context.Context, req *pb.DepositRequest) (*pb.DepositResponse, error) {
 	// Implement your business logic for deposit here
 	return &pb.DepositResponse{
 		TransactionId: "12345",
@@ -20,7 +20,7 @@ func (s *PaymentService) Deposit(ctx context.Context, req *pb.DepositRequest) (*
 	}, nil
 }
 
-func (s *PaymentService) Withdraw(ctx context.Context, req *pb.WithdrawRequest) (*pb.WithdrawResponse, error) {
+func (s *PaymentServer) Withdraw(ctx context.Context, req *pb.WithdrawRequest) (*pb.WithdrawResponse, error) {
 	// Implement your business logic for withdrawal here
 	return &pb.WithdrawResponse{
 		TransactionId: "67890",
@@ -29,7 +29,7 @@ func (s *PaymentService) Withdraw(ctx context.Context, req *pb.WithdrawRequest) 
 	}, nil
 }
 
-func (s *PaymentService) GetTransactionHistory(req *pb.TransactionHistoryRequest, stream pb.PaymentService_GetTransactionHistoryServer) error {
+func (s *PaymentServer) GetTransactionHistory(req *pb.TransactionHistoryRequest, stream pb.PaymentService_GetTransactionHistoryServer) error {
 	// Implement your business logic to stream transaction history here
 	for i := 0; i < 10; i++ {
 		stream.Send(&pb.Transaction{
@@ -44,7 +44,7 @@ func (s *PaymentService) GetTransactionHistory(req *pb.TransactionHistoryRequest
 	return nil
 }
 
-func (s *PaymentService) UploadTransactions(stream pb.PaymentService_UploadTransactionsServer) error {
+func (s *PaymentServer) UploadTransactions(stream pb.PaymentService_UploadTransactionsServer) error {
 	var successCount, failureCount int32
 	for {
 		_, err := stream.Recv()
@@ -63,7 +63,7 @@ func (s *PaymentService) UploadTransactions(stream pb.PaymentService_UploadTrans
 	}
 }
 
-func (s *PaymentService) RealTimeTransaction(stream pb.PaymentService_RealTimeTransactionServer) error {
+func (s *PaymentServer) RealTimeTransaction(stream pb.PaymentService_RealTimeTransactionServer) error {
 	for {
 		transaction, err := stream.Recv()
 		if err == io.EOF {
