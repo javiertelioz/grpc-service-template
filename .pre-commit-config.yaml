@@ -1,0 +1,22 @@
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.4.0
+      hooks:
+          - id: trailing-whitespace
+            name: Fix trailing whitespace
+          - id: end-of-file-fixer
+            name: Fix end of file
+          - id: check-yaml
+            name: Check Yaml
+
+    - repo: local
+      hooks:
+          - id: golangci-lint
+            name: GolangCI Lint
+            entry: make linter
+            language: system
+            files: \.go$
+          - id: commitizen
+            name: Commitizen
+            entry: make commit
+            language: system

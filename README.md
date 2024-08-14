@@ -4,6 +4,18 @@
 
 This repository contains an example of how to use the [gRPC-Gateway](https://github.com/grpc-ecosystem/grpc-gateway).
 
+## Requirements
+
+ - [buf cli](https://buf.build/docs/installation)
+ - [postman](https://www.postman.com/downloads/)
+ - [grpcurl](https://github.com/fullstorydev/grpcurl?tab=readme-ov-file#installation)
+
+# Install
+
+```shell
+make install
+```
+
 ## Usage
 
 #### Generating Protobuf and gRPC-Gateway Code
@@ -16,7 +28,7 @@ To generate the code, run the following command:
 make generate
 ```
 
-Run Server 
+Run Server
 ```shell
 go run main.go
 ```

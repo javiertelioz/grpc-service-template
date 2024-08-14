@@ -28,3 +28,17 @@ specs: ## 📜 Convert Swagger specs to OpenAPI v3 using swagger-cli
 	@npx swagger-cli bundle proto/payments/v1/payments.swagger.yaml \
 		--outfile proto/payments/v1/payments.openapi-v3.yaml --type yaml
 	@echo "📜 Success specs"
+
+install: ## 🚀 Install tool and dependencies
+	@cd proto && buf dep update && cd ../
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.31.0
+	@npm install -g @bufbuild/buf @bufbuild/protoc-gen-es @connectrpc/protoc-gen-connect-es
+	@echo "🚀 Success Install"
+
+linter: ## 🔍 Run golangci-lint on the Go codebase
+	@golangci-lint run --config .code_quality/.golangci.yml
+	@echo "🔍 Linting completed successfully"
+
+commit: ## 📝 Create a commit using Commitizen
+	@cz commit
+	@echo "📝 Commit created successfully with Commitizen"

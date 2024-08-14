@@ -1,0 +1,37 @@
+# .golangci.yml
+
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    - errcheck       # Check that error return values are used
+    - gosimple       # Simplifies Go code
+    - govet          # Reports suspicious constructs
+    - ineffassign    # Detects assignments to variables that are never used
+    - staticcheck    # Static analysis
+    - typecheck      # Finds type errors
+    - unused         # Finds unused variables, constants, functions, etc.
+    - gofmt          # Checks if your code is properly formatted
+    - gocyclo        # Reports functions that are too complex
+    - goconst        # Finds repeated strings that could be constants
+    - gosec          # Identifies security-related issues in Go code
+    - govet          # Vet examines Go source code and reports suspicious constructs
+    - gocritic       # Finds suspicious constructs
+
+linters-settings:
+  gofmt:
+    simplify: true
+
+issues:
+  exclude-use-default: false
+  exclude:
+    - "SA4006" # Ignore unused error variables
+  exclude-dirs:
+    - examples/
+    - proto/
+
+output:
+  sort-results: true
+
