@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/javiertelioz/grpc-templates/examples"
+	"github.com/javiertelioz/grpc-service-template/examples"
 )
 
 func main() {

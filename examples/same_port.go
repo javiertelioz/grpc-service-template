@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-	"google.golang.org/grpc/credentials/insecure"
 	"log"
 	"net/http"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
-	"github.com/javiertelioz/grpc-templates/examples/server"
-	"github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
-	"github.com/javiertelioz/grpc-templates/proto/payments/v1"
+	"github.com/javiertelioz/grpc-service-template/examples/server"
+	"github.com/javiertelioz/grpc-service-template/proto/helloworld/v1"
+	"github.com/javiertelioz/grpc-service-template/proto/payments/v1"
 )
 
 // RunServerWithSamePort godoc

@@ -4,7 +4,7 @@ package helloworld.v1;
 
 import "google/api/annotations.proto";
 
-option go_package = "github.com/javiertelioz/grpc-templates/helloworld";
+option go_package = "github.com/javiertelioz/grpc-service-template/helloworld";
 
 // GreeterService provides a simple greeting API.
 service GreeterService {

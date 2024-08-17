@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
+	pb "github.com/javiertelioz/grpc-service-template/proto/helloworld/v1"
 )
 
 type GreeterServer struct {

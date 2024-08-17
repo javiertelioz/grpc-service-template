@@ -4,7 +4,7 @@ import (
 	"context"
 	"io"
 
-	pb "github.com/javiertelioz/grpc-templates/proto/payments/v1"
+	pb "github.com/javiertelioz/grpc-service-template/proto/payments/v1"
 )
 
 type PaymentServer struct {

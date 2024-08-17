@@ -4,7 +4,7 @@ package payments.v1;
 
 import "google/api/annotations.proto";
 
-option go_package = "github.com/javiertelioz/grpc-templates/payments";
+option go_package = "github.com/javiertelioz/grpc-service-template/payments";
 
 // PaymentService provides a set of APIs for processing payments and transactions.
 service PaymentService {

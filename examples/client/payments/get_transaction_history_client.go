@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	pbPaymentsService "github.com/javiertelioz/grpc-templates/proto/payments/v1"
+	pbPaymentsService "github.com/javiertelioz/grpc-service-template/proto/payments/v1"
 )
 
 // GetTransactionHistoryService godoc

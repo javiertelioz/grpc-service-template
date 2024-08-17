@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	pbPaymentsService "github.com/javiertelioz/grpc-templates/proto/payments/v1"
+	pbPaymentsService "github.com/javiertelioz/grpc-service-template/proto/payments/v1"
 )
 
 // UploadTransactionsService godoc

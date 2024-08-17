@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/javiertelioz/grpc-templates/examples/client/greeter"
-	"github.com/javiertelioz/grpc-templates/examples/client/payments"
 	"google.golang.org/grpc"
 	"log"
 
-	pbGreeter "github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
-	pbPayments "github.com/javiertelioz/grpc-templates/proto/payments/v1"
+	"github.com/javiertelioz/grpc-service-template/examples/client/greeter"
+	"github.com/javiertelioz/grpc-service-template/examples/client/payments"
+	pbGreeter "github.com/javiertelioz/grpc-service-template/proto/helloworld/v1"
+	pbPayments "github.com/javiertelioz/grpc-service-template/proto/payments/v1"
 )
 
 func main() {

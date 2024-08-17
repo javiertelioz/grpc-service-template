@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
+	"github.com/javiertelioz/grpc-service-template/proto/helloworld/v1"
 )
 
 // SayHelloService godoc

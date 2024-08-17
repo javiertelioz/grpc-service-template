@@ -15,9 +15,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
-	"github.com/javiertelioz/grpc-templates/examples/server"
-	"github.com/javiertelioz/grpc-templates/proto/helloworld/v1"
-	"github.com/javiertelioz/grpc-templates/proto/payments/v1"
+	"github.com/javiertelioz/grpc-service-template/examples/server"
+	"github.com/javiertelioz/grpc-service-template/proto/helloworld/v1"
+	"github.com/javiertelioz/grpc-service-template/proto/payments/v1"
 )
 
 // RunServerWithGin godoc
